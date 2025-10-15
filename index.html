@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTRO Cybersecurity Orchestration Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>NTRO Platform</span>
+            </div>
+            <div class="header-controls">
+                <div class="search-container">
+                    <div class="natural-query-interface">
+                        <input type="text" id="nlQueryInput" placeholder="Ask anything... e.g., 'Show me lateral movement threats'" autocomplete="off">
+                        <button id="queryBtn"><i class="fas fa-search"></i></button>
+                        <div class="query-suggestions" id="querySuggestions"></div>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Security Analyst</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="overview">Overview</button>
+            <button class="nav-tab" data-tab="threat-intel">Threat Intelligence</button>
+            <button class="nav-tab" data-tab="attack-paths">Attack Paths</button>
+            <button class="nav-tab" data-tab="analyst-workbench">Analyst Workbench</button>
+            <button class="nav-tab" data-tab="scanners">Scanners</button>
+            <button class="nav-tab" data-tab="provenance">Provenance</button>
+        </div>
+        <div class="system-status">
+            <div class="status-indicator">
+                <span class="status-dot active"></span>
+                <span>System Operational</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Dashboard Tab -->
+        <section id="overview" class="tab-content active">
+            <div class="dashboard-grid">
+                <!-- Key Metrics Cards -->
+                <div class="metrics-row">
+                    <div class="metric-card critical">
+                        <div class="metric-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="criticalThreats">12</div>
+                            <div class="metric-label">Active Threats</div>
+                        </div>
+                    </div>
+                    <div class="metric-card high">
+                        <div class="metric-icon"><i class="fas fa-bug"></i></div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="vulnerabilities">23</div>
+                            <div class="metric-label">Critical Vulnerabilities</div>
+                        </div>
+                    </div>
+                    <div class="metric-card medium">
+                        <div class="metric-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="totalAssets">1,247</div>
+                            <div class="metric-label">Total Assets</div>
+                        </div>
+                    </div>
+                    <div class="metric-card info">
+                        <div class="metric-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="metric-content">
+                            <div class="metric-value" id="securityScore">78%</div>
+                            <div class="metric-label">Security Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-container">
+                        <h3>Threat Trends (Last 24H)</h3>
+                        <canvas id="threatTrendsChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Vulnerability Distribution</h3>
+                        <canvas id="vulnerabilityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Live Feed and Geo Map -->
+                <div class="live-data-row">
+                    <div class="live-feed">
+                        <h3>Live Threat Feed</h3>
+                        <div class="feed-container" id="liveFeed"></div>
+                    </div>
+                    <div class="geo-threats">
+                        <h3>Global Threat Map</h3>
+                        <div class="map-container" id="threatMap"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Threat Intelligence Tab -->
+        <section id="threat-intel" class="tab-content">
+            <div class="intel-grid">
+                <div class="intel-sources">
+                    <h3>Intelligence Sources</h3>
+                    <div class="sources-list" id="intelSources"></div>
+                </div>
+                <div class="rag-interface">
+                    <div class="rag-header">
+                        <h3>RAG Knowledge Retrieval</h3>
+                        <div class="rag-stats">
+                            <span class="stat">Avg Query Time: <strong>1.2s</strong></span>
+                            <span class="stat">KB Size: <strong>2.4TB</strong></span>
+                            <span class="stat">Success Rate: <strong>96%</strong></span>
+                        </div>
+                    </div>
+                    <div class="rag-container">
+                        <div class="rag-query-interface">
+                            <div class="advanced-query-input">
+                                <input type="text" id="ragQuery" placeholder="Ask anything about threats, vulnerabilities, or security intelligence..." autocomplete="off">
+                                <div class="query-controls">
+                                    <button id="ragSearchBtn"><i class="fas fa-brain"></i> Retrieve</button>
+                                    <button id="queryBuilderBtn"><i class="fas fa-tools"></i> Builder</button>
+                                    <button id="queryHistoryBtn"><i class="fas fa-history"></i> History</button>
+                                </div>
+                                <div class="query-suggestions-rag" id="ragQuerySuggestions"></div>
+                            </div>
+                            <div class="query-templates">
+                                <div class="template-tabs">
+                                    <button class="template-tab active" data-category="threat_hunting">Threat Hunting</button>
+                                    <button class="template-tab" data-category="vulnerability_assessment">Vulnerabilities</button>
+                                    <button class="template-tab" data-category="incident_response">Incident Response</button>
+                                    <button class="template-tab" data-category="compliance_risk">Compliance</button>
+                                    <button class="template-tab" data-category="threat_intelligence">Threat Intel</button>
+                                </div>
+                                <div class="template-content" id="templateContent"></div>
+                            </div>
+                        </div>
+                        <div class="rag-results-panel">
+                            <div class="results-header">
+                                <h4>Knowledge Results</h4>
+                                <div class="results-controls">
+                                    <button id="exportResults"><i class="fas fa-download"></i> Export</button>
+                                    <button id="saveQuery"><i class="fas fa-bookmark"></i> Save</button>
+                                </div>
+                            </div>
+                            <div class="rag-results" id="ragResults">
+                                <div class="welcome-message">
+                                    <i class="fas fa-search" style="font-size: 48px; color: var(--color-primary); margin-bottom: 16px;"></i>
+                                    <h4>Enhanced RAG Knowledge Retrieval</h4>
+                                    <p>Select an example query or type your own to search across multiple threat intelligence sources</p>
+                                </div>
+                            </div>
+                            <div class="knowledge-sources-panel" id="knowledgeSourcesPanel"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mcp-pipeline">
+                    <h3>Multi-Component Pipeline Status</h3>
+                    <div class="pipeline-visualization" id="mcpPipeline"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attack Paths Tab -->
+        <section id="attack-paths" class="tab-content">
+            <div class="attack-paths-container">
+                <div class="attack-controls">
+                    <h3>Attack Path Visualization</h3>
+                    <div class="path-filters">
+                        <select id="pathFilter">
+                            <option value="all">All Attack Paths</option>
+                            <option value="active">Active Threats</option>
+                            <option value="critical">Critical Severity</option>
+                        </select>
+                        <button id="exportPath" class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                    </div>
+                </div>
+                <div class="attack-visualization" id="attackGraph"></div>
+                <div class="path-timeline">
+                    <h4>Attack Timeline</h4>
+                    <div class="timeline-container" id="attackTimeline"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analyst Workbench Tab -->
+        <section id="analyst-workbench" class="tab-content">
+            <div class="workbench-grid">
+                <div class="incident-queue">
+                    <h3>Incident Queue</h3>
+                    <div class="incidents-list" id="incidentsList"></div>
+                </div>
+                <div class="investigation-panel">
+                    <h3>Investigation Panel</h3>
+                    <div class="investigation-content" id="investigationPanel">
+                        <p class="placeholder-text">Select an incident to begin investigation</p>
+                    </div>
+                </div>
+                <div class="analyst-tools">
+                    <h3>Analyst Tools</h3>
+                    <div class="tools-grid">
+                        <button class="tool-btn"><i class="fas fa-microscope"></i> Deep Scan</button>
+                        <button class="tool-btn"><i class="fas fa-ban"></i> Block IOC</button>
+                        <button class="tool-btn"><i class="fas fa-file-alt"></i> Generate Report</button>
+                        <button class="tool-btn"><i class="fas fa-share"></i> Share Intel</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scanners Tab -->
+        <section id="scanners" class="tab-content">
+            <div class="scanners-grid">
+                <div class="scanner-controls">
+                    <h3>Scanner Management</h3>
+                    <div class="scanner-actions">
+                        <button id="startAllScans" class="btn-primary"><i class="fas fa-play"></i> Start All Scans</button>
+                        <button id="stopAllScans" class="btn-secondary"><i class="fas fa-stop"></i> Stop All</button>
+                    </div>
+                </div>
+                <div class="scanners-list" id="scannersList"></div>
+                <div class="scan-results">
+                    <h3>Latest Scan Results</h3>
+                    <div class="results-container" id="scanResults"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Provenance Tab -->
+        <section id="provenance" class="tab-content">
+            <div class="provenance-container">
+                <div class="provenance-header">
+                    <h3>Tamper-Proof Provenance Cards</h3>
+                    <div class="provenance-stats">
+                        <span class="stat">Total Cards: <strong id="totalCards">247</strong></span>
+                        <span class="stat">Verified: <strong id="verifiedCards">245</strong></span>
+                        <span class="stat">Pending: <strong id="pendingCards">2</strong></span>
+                    </div>
+                </div>
+                <div class="provenance-grid" id="provenanceCards"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Processing Modal -->
+    <div id="processingModal" class="modal">
+        <div class="modal-content">
+            <div class="processing-animation">
+                <div class="spinner"></div>
+                <h3>Processing Query...</h3>
+                <p id="processingText">Analyzing threat landscape...</p>
+                <div class="processing-steps" id="processingSteps"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert System -->
+    <div id="alertSystem" class="alert-system"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
